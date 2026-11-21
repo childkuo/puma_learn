@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="bauhaus">
+  <title>洋流逆向讀書攻略｜精準抓盲點・快慢節奏・不靠死記靠推論</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces — Ocean Current / Safety Orange + Pure White + Charcoal Black */
+      --background: #ffffff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f4f4f1;
+      --surface-container-high: #e8e8e3;
+      --surface-dark: #141416;
+      --surface-dark-elevated: #202024;
+
+      /* Ink */
+      --on-surface: #141416;
+      --on-surface-variant: #44444a;
+      --on-dark: #ffffff;
+      --on-dark-muted: #d0d0d6;
+
+      /* Lines */
+      --outline: #141416;
+      --outline-variant: #d2d2cc;
+      --outline-dark-card: #38383f;
+
+      /* Accents — Safety Orange */
+      --primary: #ff5a00;
+      --on-primary: #141416;
+      --primary-container: #ff5a00;
+      --on-primary-container: #141416;
+      --primary-soft: #fff1e8;
+      --primary-ink: #b83a00;
+      --primary-on-dark: #ff7a33;
+      --secondary: #141416;
+      --tertiary: #0055cc;
+      --on-tertiary: #ffffff;
+
+      /* Semantic */
+      --positive: #0f7b42;
+      --on-positive: #ffffff;
+      --positive-soft: #e6f7ee;
+      --warning: #9a5b00;
+      --warning-soft: #fef3dc;
+      --error: #c41c1c;
+      --on-error: #ffffff;
+      --error-soft: #fdeaea;
+
+      /* Data series */
+      --data-1: #ff5a00;
+      --data-2: #141416;
+      --data-3: #0055cc;
+      --data-4: #0f7b42;
+      --data-context: #9a9aa0;
+
+      /* Focus ring */
+      --focus: #0055cc;
+
+      /* Fonts */
+      --font-headline: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+      --font-body: 'Noto Sans TC', 'Space Grotesk', sans-serif;
+      --font-label: 'JetBrains Mono', 'Noto Sans TC', monospace;
+
+      /* Type scale (Narrative) */
+      --display-size: clamp(2.25rem, 1.4rem + 3.2vw, 3.85rem);
+      --headline-size: clamp(1.625rem, 1.2rem + 1.6vw, 2.35rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      /* Shape */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --rounded-full: 0.5rem;
+
+      /* Bauhaus / Industrial Effects */
+      --border-thick: 3px solid var(--outline);
+      --border-medium: 2px solid var(--outline);
+      --offset-shadow: 6px 6px 0 var(--outline);
+      --offset-shadow-sm: 4px 4px 0 var(--outline);
+      --offset-shadow-orange: 6px 6px 0 var(--primary);
+      --rule-heavy: 6px solid var(--outline);
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Industrial Hazard Tape & Ocean Current Stripes */
+    .hazard-tape {
+      height: 16px;
+      width: 100%;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--primary) 0px,
+        var(--primary) 14px,
+        var(--outline) 14px,
+        var(--outline) 28px
+      );
+      border-top: var(--border-medium);
+      border-bottom: var(--border-medium);
+    }
+
+    .hazard-tape-thin {
+      height: 10px;
+      width: 100%;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--primary) 0px,
+        var(--primary) 10px,
+        var(--outline) 10px,
+        var(--outline) 20px
+      );
+      border-bottom: var(--border-medium);
+    }
+
+    /* Sticky Top Navigation */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      border-bottom: var(--border-thick);
+    }
+    .top-nav-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: var(--space-sm) var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--on-dark);
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-xs) var(--space-sm);
+      min-height: 44px;
+    }
+    .nav-brand-badge {
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 2px var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      border: 2px solid var(--on-dark);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--on-dark-muted);
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-radius: var(--rounded);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .nav-link:hover {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .nav-link.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--on-dark);
+    }
+    .nav-progress-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--surface-dark-elevated);
+      border: 2px solid var(--primary);
+      color: var(--on-dark);
+      padding: var(--space-xs) var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      min-height: 36px;
+    }
+    .nav-progress-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      display: inline-block;
+    }
+
+    /* Floating Back-to-Home Button */
+    .floating-home-btn {
+      position: fixed;
+      right: var(--space-lg);
+      bottom: var(--space-lg);
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 48px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--primary);
+      color: var(--on-primary);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      font-weight: 900;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      transition: transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .floating-home-btn:hover {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .floating-home-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+
+    /* Main Layout Container */
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-2xl);
+      padding: var(--space-xl) var(--space-lg) var(--space-3xl);
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Hero Section */
+    .hero-masthead {
+      background: var(--background);
+      border-bottom: var(--rule-heavy);
+    }
+    .hero-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: stretch;
+    }
+    .hero-kicker-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .kicker-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--border-medium);
+    }
+    .kicker-tag-orange {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .hero-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      line-height: 1.08;
+      margin: 0 0 var(--space-md);
+      color: var(--on-surface);
+    }
+    .hero-title mark {
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 0 var(--space-sm);
+      box-decoration-break: clone;
+      border-bottom: 4px solid var(--outline);
+    }
+    .hero-lede {
+      font-size: var(--subhead-size);
+      color: var(--on-surface-variant);
+      max-width: 58ch;
+      margin: 0 0 var(--space-lg);
+      font-weight: 500;
+    }
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+    .hero-kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+      border-top: var(--border-thick);
+      padding-top: var(--space-md);
+    }
+    .hero-kpi {
+      background: var(--surface-container);
+      border: var(--border-medium);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .hero-kpi-val {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.75rem;
+      line-height: 1.1;
+      color: var(--primary-ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-kpi-label {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin-top: var(--space-xs);
+    }
+
+    /* Hero Ocean-Current Visual Card */
+    .hero-visual-card {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow-orange);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-md);
+      position: relative;
+    }
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--outline-dark-card);
+      padding-bottom: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--primary-on-dark);
+      font-weight: 700;
+    }
+    .hero-diagram-wrap {
+      width: 100%;
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      border-top: 2px solid var(--outline-dark-card);
+      padding-top: var(--space-md);
+    }
+    .hero-pillar-item {
+      background: var(--surface-dark-elevated);
+      border: 2px solid var(--outline-dark-card);
+      padding: var(--space-sm);
+    }
+    .hero-pillar-item strong {
+      display: block;
+      color: var(--primary-on-dark);
+      font-size: 0.875rem;
+      margin-bottom: 2px;
+    }
+    .hero-pillar-item span {
+      font-size: 0.78rem;
+      color: var(--on-dark-muted);
+      line-height: 1.35;
+      display: block;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 46px;
+      padding: var(--space-sm) var(--space-lg);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-primary:hover {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .btn-secondary {
+      background: var(--background);
+      color: var(--on-surface);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .btn-dark {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+    }
+    .btn-dark:hover {
+      background: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Section Architecture */
+    .chapter-section {
+      border-top: 8px solid var(--outline);
+      padding-top: var(--space-xl);
+      scroll-margin-top: 84px;
+    }
+    .chapter-section.accent-orange {
+      border-top-color: var(--primary);
+    }
+    .chapter-section.accent-blue {
+      border-top-color: var(--tertiary);
+    }
+    .chapter-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+    .chapter-meta-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .chapter-num {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--border-medium);
+    }
+    .chapter-tag-orange {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .chapter-tag-blue {
+      background: var(--tertiary);
+      color: var(--on-tertiary);
+    }
+    .chapter-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--headline-size);
+      line-height: 1.18;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .chapter-subtitle {
+      font-size: var(--subhead-size);
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+      margin: 0;
+    }
+
+    /* Theory 3-Column Triad (說明 / 為什麼這樣做 / 好處) */
+    .triad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .block-card {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background: var(--surface-container-low);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .block-card.is-orange {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .block-card.is-dark {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+    }
+    .block-card.is-tinted {
+      background: var(--surface-container);
+    }
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      align-self: flex-start;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: 2px var(--space-sm);
+      border: var(--border-medium);
+      background: var(--background);
+      color: var(--on-surface);
+    }
+    .block-card.is-dark .card-badge {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--on-dark);
+    }
+    .block-card h3 {
+      margin: var(--space-xs) 0 0;
+      font-family: var(--font-headline);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .block-card p {
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+    .block-card.is-dark p {
+      color: var(--on-dark-muted);
+    }
+
+    /* Interactive Lab Frame */
+    .lab-frame {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background: var(--surface-container);
+      overflow: hidden;
+    }
+    .lab-topbar {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      border-bottom: var(--border-thick);
+    }
+    .lab-topbar-title {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .lab-topbar-tag {
+      background: var(--primary);
+      color: var(--on-primary);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: 2px var(--space-sm);
+    }
+    .lab-body {
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    /* Chapter 1: Pace Simulator */
+    .pace-controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .mode-switch-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .mode-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      background: var(--background);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: var(--rounded);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--offset-shadow-sm);
+    }
+    .pace-units-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .pace-unit-btn {
+      text-align: left;
+      padding: var(--space-md);
+      border: var(--border-thick);
+      background: var(--background);
+      color: var(--on-surface);
+      cursor: pointer;
+      border-radius: var(--rounded);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      min-height: 120px;
+      transition: transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+    }
+    .pace-unit-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow-sm);
+    }
+    .pace-unit-btn.state-fast {
+      background: var(--positive-soft);
+    }
+    .pace-unit-btn.state-med {
+      background: var(--warning-soft);
+    }
+    .pace-unit-btn.state-slow {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .pace-unit-code {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+    }
+    .pace-unit-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+    .pace-unit-badge {
+      margin-top: auto;
+      display: inline-block;
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border: 2px solid var(--outline);
+      background: var(--background);
+      color: var(--on-surface);
+      align-self: flex-start;
+    }
+    .pace-viz-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+    .chart-panel {
+      background: var(--background);
+      border: var(--border-thick);
+      padding: var(--space-md);
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .chart-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      border-bottom: 2px solid var(--outline);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .chart-legend-inline {
+      display: flex;
+      gap: var(--space-md);
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+    .legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--outline);
+      display: inline-block;
+    }
+    .pace-telemetry-panel {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .telemetry-stat {
+      border-bottom: 1px solid var(--outline-dark-card);
+      padding-bottom: var(--space-sm);
+    }
+    .telemetry-stat:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .telemetry-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-dark-muted);
+    }
+    .telemetry-val {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.85rem;
+      color: var(--primary-on-dark);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Chapter 2: Zero-Pressure Exam Lab */
+    .exam-q-list {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .exam-q-card {
+      background: var(--background);
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .exam-q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .exam-q-stem {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin: 0;
+    }
+    .exam-options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .exam-opt-btn {
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      min-height: 46px;
+      border: var(--border-medium);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: var(--rounded);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .exam-opt-btn:hover {
+      background: var(--surface-container-high);
+    }
+    .exam-opt-btn.selected {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      font-weight: 700;
+    }
+    .conf-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      border-top: 2px dashed var(--outline-variant);
+      padding-top: var(--space-sm);
+    }
+    .conf-label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+      margin-right: var(--space-xs);
+    }
+    .conf-btn {
+      min-height: 40px;
+      padding: var(--space-xs) var(--space-sm);
+      border: var(--border-medium);
+      background: var(--background);
+      color: var(--on-surface);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: var(--rounded);
+    }
+    .conf-btn.selected {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .exam-report-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .report-bucket {
+      background: var(--background);
+      border: var(--border-thick);
+      padding: var(--space-md);
+    }
+    .report-bucket.bucket-blind {
+      background: var(--primary-soft);
+    }
+    .report-bucket.bucket-infer {
+      background: var(--positive-soft);
+    }
+    .report-bucket.bucket-guess {
+      background: var(--warning-soft);
+    }
+
+    /* Chapter 3: 5-Point Checklist Tracker */
+    .five-tracker-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .checklist-stack {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .check-item-card {
+      background: var(--background);
+      border: var(--border-thick);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      transition: background-color var(--dur-short) var(--ease-out);
+    }
+    .check-item-card.is-done {
+      background: var(--positive-soft);
+    }
+    .check-toggle-btn {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border: var(--border-thick);
+      background: var(--background);
+      color: var(--on-surface);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 900;
+    }
+    .check-item-card.is-done .check-toggle-btn {
+      background: var(--positive);
+      color: var(--on-positive);
+    }
+    .check-item-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .check-item-input {
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid var(--outline-variant);
+      background: transparent;
+      color: var(--on-surface);
+      font-size: 0.98rem;
+      font-weight: 700;
+      padding: 4px 0;
+    }
+    .check-item-input:focus {
+      outline: none;
+      border-bottom-color: var(--focus);
+    }
+    .check-item-card.is-done .check-item-input {
+      text-decoration: line-through;
+      color: var(--on-surface-variant);
+    }
+    .check-status-tag {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border: 2px solid var(--outline);
+      background: var(--surface-container);
+      white-space: nowrap;
+    }
+    .check-item-card.is-done .check-status-tag {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .five-status-panel {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow-orange);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .progress-bar-track {
+      height: 22px;
+      background: var(--surface-dark-elevated);
+      border: 2px solid var(--on-dark);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .input-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .input-field-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--on-dark-muted);
+    }
+    .input-dark {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-dark-elevated);
+      color: var(--on-dark);
+      border: 2px solid var(--on-dark);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .rest-celebration-box {
+      display: none;
+      background: var(--primary);
+      color: var(--on-primary);
+      border: var(--border-thick);
+      padding: var(--space-md);
+      animation: slidePop var(--dur-long) var(--ease-out) forwards;
+    }
+    .rest-celebration-box.visible {
+      display: block;
+    }
+
+    @keyframes slidePop {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Chapter 4: Thinking Matrix & Brain Rest Calculator */
+    .matrix-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .matrix-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-lg);
+    }
+    .matrix-col {
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      background: var(--background);
+    }
+    .matrix-col.col-rote {
+      background: var(--surface-container-high);
+    }
+    .matrix-col.col-infer {
+      background: var(--primary-soft);
+    }
+    .brain-calc-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+    .calc-inputs-box {
+      background: var(--background);
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .light-input-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .range-slider {
+      width: 100%;
+      accent-color: var(--primary);
+      cursor: pointer;
+      min-height: 36px;
+    }
+    .select-box {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-lg) var(--space-xs) var(--space-sm);
+      border: var(--border-thick);
+      background: var(--background);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .calc-output-box {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .fatigue-gauge-track {
+      height: 24px;
+      background: var(--surface-dark-elevated);
+      border: 2px solid var(--on-dark);
+      position: relative;
+    }
+    .fatigue-gauge-fill {
+      height: 100%;
+      background: var(--positive);
+      transition: width var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+    }
+
+    /* Chapter 5: Quiz Challenge */
+    .quiz-shell {
+      background: var(--background);
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .quiz-progress-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-xs);
+    }
+    .quiz-step-pip {
+      height: 12px;
+      border: 2px solid var(--outline);
+      background: var(--surface-container);
+    }
+    .quiz-step-pip.correct { background: var(--positive); }
+    .quiz-step-pip.wrong { background: var(--error); }
+    .quiz-step-pip.current { background: var(--primary); }
+    .quiz-options-stack {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .quiz-opt-btn {
+      text-align: left;
+      padding: var(--space-md);
+      min-height: 52px;
+      border: var(--border-thick);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+    }
+    .quiz-opt-btn:hover:not(:disabled) {
+      background: var(--primary-soft);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow-sm);
+    }
+    .quiz-opt-btn.is-correct {
+      background: var(--positive-soft);
+      border-color: var(--positive);
+    }
+    .quiz-opt-btn.is-wrong {
+      background: var(--error-soft);
+      border-color: var(--error);
+    }
+    .quiz-feedback-panel {
+      border: var(--border-thick);
+      padding: var(--space-md);
+      background: var(--surface-container);
+    }
+
+    /* Inline Form / Action Messages */
+    .inline-notice {
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
+      border-left: 4px solid var(--primary);
+      background: var(--primary-soft);
+      color: var(--on-surface);
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--surface-dark);
+      color: var(--on-dark);
+      border-top: var(--rule-heavy);
+      padding: var(--space-xl) var(--space-lg);
+    }
+    .footer-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .footer-note {
+      font-size: 0.875rem;
+      color: var(--on-dark-muted);
+      max-width: 65ch;
+      margin: 0;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 960px) {
+      .hero-inner,
+      .triad-grid,
+      .pace-viz-grid,
+      .five-tracker-layout,
+      .brain-calc-grid,
+      .matrix-compare-grid,
+      .exam-report-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .pace-units-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-lg) var(--space-md) var(--space-3xl);
+        gap: var(--space-xl);
+      }
+      .hero-inner {
+        padding: var(--space-lg) var(--space-md);
+      }
+      .hero-kpi-strip,
+      .hero-pillars,
+      .exam-options-grid,
+      .pace-units-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .floating-home-btn {
+        right: var(--space-md);
+        bottom: var(--space-md);
+      }
+      .nav-links {
+        gap: var(--space-xs);
+      }
+      .nav-link {
+        font-size: 0.8rem;
+        padding: var(--space-xs);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Industrial Caution Strip -->
+  <div class="hazard-tape" aria-hidden="true"></div>
+
+  <!-- Sticky Global Navigation Bar -->
+  <nav class="top-nav" aria-label="全域章節導覽">
+    <div class="top-nav-inner">
+      <button type="button" class="nav-brand" onclick="scrollToHero()">
+        <span class="nav-brand-badge">CURRENT // 洋流攻略</span>
+        <span>逆向讀書系統</span>
+      </button>
+
+      <div class="nav-links">
+        <a href="#sec-pace" class="nav-link" data-section="sec-pace">01 快慢節奏</a>
+        <a href="#sec-exam" class="nav-link" data-section="sec-exam">02 無壓測試</a>
+        <a href="#sec-five" class="nav-link" data-section="sec-five">03 5點收工</a>
+        <a href="#sec-brain" class="nav-link" data-section="sec-brain">04 推論修復</a>
+        <a href="#sec-quiz" class="nav-link" data-section="sec-quiz">05 通關挑戰</a>
+      </div>
+
+      <div class="nav-progress-pill" id="global-progress-pill" aria-live="polite">
+        <span class="nav-progress-dot" aria-hidden="true"></span>
+        <span>今日盲點 <strong id="nav-blindspot-count">0/5</strong></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Floating Back-to-Home Button -->
+  <button type="button" id="floating-home-btn" class="floating-home-btn" onclick="scrollToHero()" aria-label="回到首頁總覽">
+    <i data-lucide="arrow-up" style="width:18px;height:18px;" aria-hidden="true"></i>
+    <span>回到首頁</span>
+  </button>
+
+  <!-- Hero Section (Static Header Masthead) -->
+  <header id="hero" class="hero-masthead">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-kicker-row">
+          <span class="kicker-tag kicker-tag-orange">REVERSE STUDY SYSTEM // 2026</span>
+          <span class="kicker-tag">高三學測・大考通關指南</span>
+        </div>
+
+        <h1 class="hero-title">
+          別從第 1 頁硬啃！<br>
+          用考卷<mark>逆向抓出真盲點</mark>
+        </h1>
+
+        <p class="hero-lede">
+          傳統讀書把「念完 50 頁」當進度，卻在不知不覺中耗盡腦力。真正高效率的逆向讀書法，是先寫考卷測試強弱、動態調配快慢節奏，不靠死記硬背、改用邏輯推論，每天搞懂 5 個盲點就安心收工休息。
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="#sec-pace" class="btn btn-primary">
+            <i data-lucide="zap" style="width:18px;height:18px;" aria-hidden="true"></i>
+            <span>進入章節一：快慢節奏</span>
+          </a>
+          <a href="#sec-exam" class="btn btn-secondary">
+            <i data-lucide="clipboard-check" style="width:18px;height:18px;" aria-hidden="true"></i>
+            <span>體驗 30 分鐘無壓測試</span>
+          </a>
+        </div>
+
+        <div class="hero-kpi-strip">
+          <div class="hero-kpi">
+            <div class="hero-kpi-val">30 MIN</div>
+            <div class="hero-kpi-label">完全沒念先寫考卷半小時</div>
+          </div>
+          <div class="hero-kpi">
+            <div class="hero-kpi-val">5 PTS</div>
+            <div class="hero-kpi-label">每日鎖定搞懂 5 個盲點即收工</div>
+          </div>
+          <div class="hero-kpi">
+            <div class="hero-kpi-val">0% 壓力</div>
+            <div class="hero-kpi-label">零預設包袱・測出推論與真盲點</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ocean-Current Visual Flow Card -->
+      <aside class="hero-visual-card" aria-label="洋流逆向複習路徑對比圖">
+        <div class="hero-card-header">
+          <span>FLOW_MAP // 洋流式逆向路徑</span>
+          <span>SAFETY ORANGE SPEC</span>
+        </div>
+
+        <div class="hero-diagram-wrap">
+          <svg viewBox="0 0 420 230" width="100%" height="230" role="img" aria-label="傳統線性硬讀與洋流逆向複習路徑比較圖">
+            <!-- Grid lines -->
+            <line x1="20" y1="30" x2="400" y2="30" stroke="var(--outline-dark-card)" stroke-width="1"/>
+            <line x1="20" y1="115" x2="400" y2="115" stroke="var(--outline-dark-card)" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="20" y1="205" x2="400" y2="205" stroke="var(--outline-dark-card)" stroke-width="1"/>
+
+            <!-- Traditional Linear Path (Top) -->
+            <text x="20" y="22" fill="var(--on-dark-muted)" font-family="var(--font-label)" font-size="11" font-weight="700">傳統順向：第 1 頁 → 第 50 頁（彈性疲乏）</text>
+            <rect x="20" y="42" width="110" height="34" fill="var(--surface-dark-elevated)" stroke="var(--on-dark-muted)" stroke-width="2"/>
+            <text x="75" y="63" text-anchor="middle" fill="var(--on-dark)" font-size="12" font-weight="700">硬念第 1–3 章</text>
+
+            <line x1="130" y1="59" x2="160" y2="59" stroke="var(--on-dark-muted)" stroke-width="2"/>
+            <rect x="160" y="42" width="110" height="34" fill="var(--surface-dark-elevated)" stroke="var(--on-dark-muted)" stroke-width="2"/>
+            <text x="215" y="63" text-anchor="middle" fill="var(--on-dark-muted)" font-size="12" font-weight="700">後面 20 頁失神</text>
+
+            <line x1="270" y1="59" x2="300" y2="59" stroke="var(--error)" stroke-width="2"/>
+            <rect x="300" y="42" width="100" height="34" fill="var(--error)" stroke="var(--on-dark)" stroke-width="2"/>
+            <text x="350" y="63" text-anchor="middle" fill="var(--on-error)" font-size="12" font-weight="700">考卷錯一堆</text>
+
+            <!-- Ocean Current Reverse Path (Bottom) -->
+            <text x="20" y="135" fill="var(--primary-on-dark)" font-family="var(--font-label)" font-size="11" font-weight="700">洋流逆向：考卷偵測 → 快慢變速 → 5 點收工</text>
+
+            <!-- Flowing Current Polyline -->
+            <polyline points="20,175 110,175 140,152 250,152 280,175 400,175" fill="none" stroke="var(--primary)" stroke-width="4"/>
+
+            <rect x="20" y="156" width="96" height="40" fill="var(--primary)" stroke="var(--on-dark)" stroke-width="2"/>
+            <text x="68" y="180" text-anchor="middle" fill="var(--on-primary)" font-size="12" font-weight="900">1. 先寫考卷</text>
+
+            <rect x="142" y="134" width="112" height="40" fill="var(--background)" stroke="var(--primary)" stroke-width="3"/>
+            <text x="198" y="158" text-anchor="middle" fill="var(--on-surface)" font-size="12" font-weight="900">2. 抓 5 個盲點</text>
+
+            <rect x="282" y="156" width="118" height="40" fill="var(--positive)" stroke="var(--on-dark)" stroke-width="2"/>
+            <text x="341" y="180" text-anchor="middle" fill="var(--on-positive)" font-size="12" font-weight="900">3. 搞懂就收工</text>
+          </svg>
+        </div>
+
+        <div class="hero-pillars">
+          <div class="hero-pillar-item">
+            <strong>逆向複習</strong>
+            <span>考卷帶路翻課本，只把慢速精力花在真卡點。</span>
+          </div>
+          <div class="hero-pillar-item">
+            <strong>精準抓盲點</strong>
+            <span>分清猜對、推論對與徹底不懂，不盲目重念。</span>
+          </div>
+          <div class="hero-pillar-item">
+            <strong>推論與修復</strong>
+            <span>用邏輯取代死背，保留完整睡眠防止彈性疲乏。</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="hazard-tape-thin" aria-hidden="true"></div>
+  </header>
+
+  <main class="page-grid">
+
+    <!-- CHAPTER 1: 讀書建議（快慢節奏與精力管理） -->
+    <section id="sec-pace" class="chapter-section accent-orange">
+      <div class="chapter-header">
+        <div class="chapter-meta-row">
+          <span class="chapter-num chapter-tag-orange">CHAPTER 01</span>
+          <span class="chapter-num">讀書建議 // 快慢節奏與精力管理</span>
+        </div>
+        <h2 class="chapter-title">為什麼讀書不該從頭順著看？用卡點決定快慢節奏</h2>
+        <p class="chapter-subtitle">
+          課本編排假設重點均勻分散，但你的理解力並不均勻。把進度綁在「頁數」上，只會讓你陷入大腦彈性疲乏。
+        </p>
+      </div>
+
+      <div class="triad-grid">
+        <article class="block-card">
+          <span class="card-badge">WHAT // 怎麼做</span>
+          <h3>跳脫「每天 50 頁」的線性進度</h3>
+          <p>
+            不要打開課本就規定自己今天要念完第 1 到第 50 頁，或死盯第一課到第三章。改為先透過題目掃描自己的熟悉度，把書本內容區分為「看一眼就通」與「完全推不出來」兩類區域，動態切換閱讀速度。
+          </p>
+        </article>
+
+        <article class="block-card is-tinted">
+          <span class="card-badge">WHY // 為什麼這樣做</span>
+          <h3>每個人的理解與強弱分佈不同</h3>
+          <p>
+            教材的編排是由教書的人把重點均勻分散，但每位學生看不同重點的吸收速度天差地遠。已經推論正確的地方看很快；真正卡住、連猜都猜不出來的盲點，才需要自然放慢速度深入思考。
+          </p>
+        </article>
+
+        <article class="block-card is-dark">
+          <span class="card-badge">BENEFIT // 核心好處</span>
+          <h3>避開「彈性疲乏」，守住吸收率</h3>
+          <p>
+            硬念 50 頁時，常在遇到太多陌生觀念後腦力超載，導致最後 20 頁吸收力暴跌。依卡點調配快慢，能把有限的大腦精力集中在使用率最高的地方，讀書更輕鬆、專注力不中斷。
+          </p>
+        </article>
+      </div>
+
+      <!-- Interactive Lab 1 -->
+      <div class="lab-frame">
+        <div class="lab-topbar">
+          <div class="lab-topbar-title">
+            <i data-lucide="gauge" style="width:20px;height:20px;" aria-hidden="true"></i>
+            <span>互動體驗器：快慢節奏調配與卡點偵測模擬（以 50 頁生物複習為例）</span>
+          </div>
+          <span class="lab-topbar-tag">SIMULATOR 01</span>
+        </div>
+
+        <div class="lab-body">
+          <div class="pace-controls-row">
+            <div class="mode-switch-group" role="group" aria-label="選擇讀書模式預設">
+              <button type="button" class="mode-btn" id="btn-mode-linear" onclick="setPacePreset('linear')">傳統順向硬讀（50 頁均速推進）</button>
+              <button type="button" class="mode-btn active" id="btn-mode-reverse" onclick="setPacePreset('reverse')">洋流快慢調配（推薦節奏）</button>
+            </div>
+            <div class="inline-notice" id="pace-hint">
+              點擊下方 5 個章節卡片，可自由切換「已懂快轉 / 模糊中速 / 卡點慢讀」，即時觀察大腦吸收曲線！
+            </div>
+          </div>
+
+          <div class="pace-units-grid" id="pace-units-grid">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="pace-viz-grid">
+            <div class="chart-panel">
+              <div class="chart-title-row">
+                <strong>第 1–50 頁大腦吸收率與腦力曲線</strong>
+                <div class="chart-legend-inline">
+                  <span class="legend-chip"><span class="legend-swatch" style="background:var(--primary);"></span>有效吸收率</span>
+                  <span class="legend-chip"><span class="legend-swatch" style="background:var(--surface-dark);"></span>剩餘腦力值</span>
+                </div>
+              </div>
+              <div id="pace-chart-container" style="min-height: 220px;">
+                <svg id="pace-svg-chart" viewBox="0 0 560 220" width="100%" height="220" role="img" aria-label="讀書快慢節奏與彈性疲乏模擬折線圖"></svg>
+              </div>
+            </div>
+
+            <div class="pace-telemetry-panel">
+              <div class="telemetry-stat">
+                <div class="telemetry-label">AVG_ABSORPTION // 平均有效吸收率</div>
+                <div class="telemetry-val" id="tel-absorption">88%</div>
+              </div>
+              <div class="telemetry-stat">
+                <div class="telemetry-label">STAMINA_LEFT // 讀完 50 頁剩餘腦力</div>
+                <div class="telemetry-val" id="tel-stamina">68%</div>
+              </div>
+              <div class="telemetry-stat">
+                <div class="telemetry-label">FATIGUE_ALERT // 彈性疲乏狀態診斷</div>
+                <div id="tel-diagnosis" style="font-size:0.95rem;font-weight:700;margin-top:4px;color:var(--on-dark);">
+                  節奏均衡：已懂區塊快速掃描，卡點有充足腦力消化。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: 考試策略建議（模擬實戰與無壓測試） -->
+    <section id="sec-exam" class="chapter-section">
+      <div class="chapter-header">
+        <div class="chapter-meta-row">
+          <span class="chapter-num">CHAPTER 02</span>
+          <span class="chapter-num chapter-tag-orange">考試策略 // 模擬實戰與無壓測試</span>
+        </div>
+        <h2 class="chapter-title">完全還沒念，就直接拿不同考卷先寫半小時</h2>
+        <p class="chapter-subtitle">
+          還沒讀書就寫考卷不是自虐，而是利用「零壓力」狀態下的真實體感，替自己的大腦做一次高精度斷層掃描。
+        </p>
+      </div>
+
+      <div class="triad-grid">
+        <article class="block-card is-orange">
+          <span class="card-badge">ACTION // 實戰做法</span>
+          <h3>先拿 2–3 份不同考卷寫 30 分鐘</h3>
+          <p>
+            今天決定要複習生物（或任何科目），在「完全還沒翻課本」的狀態下，直接拿幾份不同來源的考卷出來寫半小時，把真實作答的結果擺在旁邊。
+          </p>
+        </article>
+
+        <article class="block-card">
+          <span class="card-badge">WHY // 心理機制</span>
+          <h3>因為「都沒念」，所以徹底零壓力</h3>
+          <p>
+            傳統先念完三章再寫題目，錯一題就會焦慮自我懷疑；但完全沒念就先考，答錯是理所當然！沒有得失心，反而能客觀測出你真正的強項與弱項。
+          </p>
+        </article>
+
+        <article class="block-card is-tinted">
+          <span class="card-badge">BENEFIT // 三層辨識</span>
+          <h3>分清猜對、推論對、與徹底不懂</h3>
+          <p>
+            寫完後你會產生極為關鍵的「體感」：哪一題竟然用猜的就對？哪一題靠模糊印象「推論」就寫對？哪一題連猜都猜不出來？盲點瞬間現形。
+          </p>
+        </article>
+      </div>
+
+      <!-- Interactive Lab 2 -->
+      <div class="lab-frame">
+        <div class="lab-topbar">
+          <div class="lab-topbar-title">
+            <i data-lucide="file-search" style="width:20px;height:20px;" aria-hidden="true"></i>
+            <span>互動情境模擬：考前 30 分鐘「零壓力」診斷測驗（高三生物範例）</span>
+          </div>
+          <span class="lab-topbar-tag">ZERO-STRESS LAB</span>
+        </div>
+
+        <div class="lab-body">
+          <div class="inline-notice">
+            假設你今天還沒翻開生物課本。請直接憑直覺作答這 3 題，並標記你作答當下的「腦內思考體感」：
+          </div>
+
+          <div class="exam-q-list" id="exam-q-list">
+            <!-- Populated by JS -->
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-md);align-items:center;">
+            <button type="button" class="btn btn-primary" onclick="evaluateZeroStressExam()">
+              <i data-lucide="scan-line" style="width:18px;height:18px;" aria-hidden="true"></i>
+              <span>生成零壓力盲點診斷報告</span>
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="resetZeroStressExam()">
+              <span>重新測試</span>
+            </button>
+            <span id="exam-inline-msg" style="font-weight:700;color:var(--error);"></span>
+          </div>
+
+          <div id="exam-report-area" style="display:none;">
+            <div style="border-top:var(--border-thick);padding-top:var(--space-md);">
+              <h3 style="margin:0 0 var(--space-sm);font-family:var(--font-headline);">無壓診斷結果：已自動為你分類翻書優先級</h3>
+              <div class="exam-report-grid" id="exam-report-grid">
+                <!-- Populated by JS -->
+              </div>
+              <div style="margin-top:var(--space-md);display:flex;flex-wrap:wrap;gap:var(--space-md);align-items:center;">
+                <button type="button" class="btn btn-dark" onclick="syncExamBlindSpotsToChecklist()">
+                  <i data-lucide="arrow-down-to-line" style="width:18px;height:18px;" aria-hidden="true"></i>
+                  <span>將這次測出的盲點匯入「章節三：今日 5 點清單」</span>
+                </button>
+                <span id="exam-sync-msg" style="font-weight:700;color:var(--positive);"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3: 預習與複習策略（逆向通關與 5 點收工法則） -->
+    <section id="sec-five" class="chapter-section accent-orange">
+      <div class="chapter-header">
+        <div class="chapter-meta-row">
+          <span class="chapter-num chapter-tag-orange">CHAPTER 03</span>
+          <span class="chapter-num">預習與複習 // 逆向通關與 5 點收工法則</span>
+        </div>
+        <h2 class="chapter-title">翻轉順序：先考後翻書，每天搞懂 5 個盲點就收工</h2>
+        <p class="chapter-subtitle">
+          把進度從「今天要讀完幾頁」改為「今天要把這 5 個不懂的地方搞懂」。標準明確，大腦就會對休息充滿期待感。
+        </p>
+      </div>
+
+      <div class="triad-grid">
+        <article class="block-card">
+          <span class="card-badge">REVERSE // 順序翻轉</span>
+          <h3>寫完 2–3 份考卷再翻書查證</h3>
+          <p>
+            把剛剛寫好的考卷放旁邊，整理出一張盲點筆記再打開課本。看書時，剛剛已經推論寫對的地方直接快轉；遇到卡點才停下來，把原理徹底看懂。
+          </p>
+        </article>
+
+        <article class="block-card is-tinted">
+          <span class="card-badge">RULE OF 5 // 5 點法則</span>
+          <h3>今日作業 = 搞懂挑出的 5 個盲點</h3>
+          <p>
+            人的腦力一天能消化徹底不懂的難題有限。寫完考卷後，只要挑出 5 個真正不懂的地方當成今天的進度目標——搞懂這 5 個，今天就達標了。
+          </p>
+        </article>
+
+        <article class="block-card is-orange">
+          <span class="card-badge">REWARD // 收工期待感</span>
+          <h3>預先規劃休息，讓快樂驅動效率</h3>
+          <p>
+            事先寫好「搞懂 5 點後要去做什麼放鬆」，會讓你讀書時一直很期待收工的來臨，大腦不會陷入無止盡的彈性疲乏（父母也應尊重這段休息時間）。
+          </p>
+        </article>
+      </div>
+
+      <!-- Interactive Lab 3 -->
+      <div class="lab-frame">
+        <div class="lab-topbar">
+          <div class="lab-topbar-title">
+            <i data-lucide="check-square" style="width:20px;height:20px;" aria-hidden="true"></i>
+            <span>互動打卡器：每日 5 點盲點清單（可自訂編輯・完成 5 點即啟動收工封條）</span>
+          </div>
+          <span class="lab-topbar-tag">5-POINT TRACKER</span>
+        </div>
+
+        <div class="lab-body">
+          <div class="five-tracker-layout">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-sm);flex-wrap:wrap;gap:var(--space-sm);">
+                <strong>點擊左側方框打勾確認搞懂，或直接點文字編輯成你今天的考卷盲點：</strong>
+                <button type="button" class="mode-btn" onclick="resetFiveChecklist()">全部重置未勾選</button>
+              </div>
+              <div class="checklist-stack" id="five-checklist-stack">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div class="five-status-panel">
+              <div>
+                <div style="font-family:var(--font-label);font-size:var(--label-size);color:var(--primary-on-dark);">DAILY_QUOTA // 今日收工進度</div>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;margin:var(--space-xs) 0;">
+                  <span style="font-family:var(--font-headline);font-size:2.5rem;font-weight:700;" id="five-progress-text">0 / 5</span>
+                  <span style="font-size:0.875rem;color:var(--on-dark-muted);" id="five-progress-sub">還差 5 個盲點即可收工</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill" id="five-progress-fill"></div>
+                </div>
+              </div>
+
+              <div class="input-field-group">
+                <label for="reward-plan-input" class="input-field-label">事先規劃「搞懂 5 點後的休息獎勵」（帶來期待感）：</label>
+                <input type="text" id="reward-plan-input" class="input-dark" value="看一集動畫＋睡足 8 小時" oninput="updateRewardPlan(this.value)">
+              </div>
+
+              <div class="rest-celebration-box" id="rest-celebration-box" aria-live="polite">
+                <div style="font-family:var(--font-label);font-size:0.8rem;font-weight:700;border-bottom:2px solid var(--outline);padding-bottom:4px;margin-bottom:8px;">
+                  MISSION ACCOMPLISHED // 今日收工封條已啟動
+                </div>
+                <strong style="font-size:1.15rem;display:block;margin-bottom:6px;">
+                  5 個盲點全部搞懂！現在立刻關書休息！
+                </strong>
+                <p style="margin:0;font-size:0.9rem;font-weight:700;">
+                  不要逞強多念造成彈性疲乏。現在就去執行你的預約休息計畫：「<span id="celebration-reward-display"></span>」！
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: 記憶力不好的人該怎麼讀？（推論與大腦修復） -->
+    <section id="sec-brain" class="chapter-section accent-blue">
+      <div class="chapter-header">
+        <div class="chapter-meta-row">
+          <span class="chapter-num chapter-tag-blue">CHAPTER 04</span>
+          <span class="chapter-num">心智與恢復 // 推論思維與大腦修復</span>
+        </div>
+        <h2 class="chapter-title">記憶力不好怎麼辦？用「推論」解題，用睡眠修復大腦</h2>
+        <p class="chapter-subtitle">
+          讀書不是把課本影印進腦袋。學會用模糊線索推論答案，並像頂尖運動員一樣保護睡眠，才是長期考場不失誤的關鍵。
+        </p>
+      </div>
+
+      <div class="triad-grid">
+        <article class="block-card">
+          <span class="card-badge">LOGIC // 邏輯推論</span>
+          <h3>用「模糊印象＋推論」取代硬背</h3>
+          <p>
+            寫考卷時，很多題目即使沒背熟，也能靠已知的前因後果推導出來。一旦你發現自己「推論正確」，回去翻書時記憶會直接鎖定，大幅減輕大腦背誦負荷。
+          </p>
+        </article>
+
+        <article class="block-card is-dark">
+          <span class="card-badge">RECOVERY // 大谷翔平啟示</span>
+          <h3>大腦沒休息好，逞強一定會失誤</h3>
+          <p>
+            看大谷翔平的人生歷程，他一直強調「睡覺很重要、休息很重要」；連頂尖選手逞強沒休息好都容易受傷。讀書也一樣，大腦彈性疲乏下硬撐，只會讓吸收力歸零、考場頻頻失誤。
+          </p>
+        </article>
+
+        <article class="block-card is-tinted">
+          <span class="card-badge">BENEFIT // 清醒優勢</span>
+          <h3>清醒的推論頭腦勝過疲勞的記憶</h3>
+          <p>
+            有充足休息與清楚策略的大腦，能在面對陌生素養題時冷靜拆解線索；不逞強、每天定時定量收工，反而能在長期備考中走得最穩、最遠。
+          </p>
+        </article>
+      </div>
+
+      <!-- Interactive Lab 4A: Inference vs Rote Matrix -->
+      <div class="lab-frame" style="margin-bottom:var(--space-lg);">
+        <div class="lab-topbar">
+          <div class="lab-topbar-title">
+            <i data-lucide="git-compare" style="width:20px;height:20px;" aria-hidden="true"></i>
+            <span>思維比較矩陣：死背型思維 vs 推論型思維（切換科目對照）</span>
+          </div>
+          <span class="lab-topbar-tag">MINDSET MATRIX</span>
+        </div>
+
+        <div class="lab-body">
+          <div class="matrix-tabs" role="group" aria-label="選擇比較學科情境">
+            <button type="button" class="mode-btn active" id="tab-bio" onclick="setThinkSubject('bio')">生物：酵素與代謝</button>
+            <button type="button" class="mode-btn" id="tab-hist" onclick="setThinkSubject('hist')">歷史：事件與脈絡</button>
+            <button type="button" class="mode-btn" id="tab-civ" onclick="setThinkSubject('civ')">公民：法規與制度</button>
+            <button type="button" class="mode-btn" id="tab-phys" onclick="setThinkSubject('phys')">自然：圖表素養題</button>
+          </div>
+
+          <div class="matrix-compare-grid" id="matrix-compare-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Lab 4B: Brain Rest & Fatigue Calculator -->
+      <div class="lab-frame">
+        <div class="lab-topbar">
+          <div class="lab-topbar-title">
+            <i data-lucide="battery-charging" style="width:20px;height:20px;" aria-hidden="true"></i>
+            <span>大腦精力修復充電計算器：評估彈性疲乏與失誤風險</span>
+          </div>
+          <span class="lab-topbar-tag">BRAIN STAMINA CALC</span>
+        </div>
+
+        <div class="lab-body">
+          <div class="brain-calc-grid">
+            <div class="calc-inputs-box">
+              <div class="input-field-group">
+                <label for="slider-study-hours" class="light-input-label">
+                  <span>今日已連續專注讀書時數</span>
+                  <strong id="val-study-hours" style="color:var(--primary-ink);font-family:var(--font-label);">4 小時</strong>
+                </label>
+                <input type="range" id="slider-study-hours" class="range-slider" min="1" max="12" step="0.5" value="4" oninput="updateBrainCalculator()">
+              </div>
+
+              <div class="input-field-group">
+                <label for="slider-sleep-hours" class="light-input-label">
+                  <span>昨晚實際睡眠時數</span>
+                  <strong id="val-sleep-hours" style="color:var(--primary-ink);font-family:var(--font-label);">7.5 小時</strong>
+                </label>
+                <input type="range" id="slider-sleep-hours" class="range-slider" min="4" max="10" step="0.5" value="7.5" oninput="updateBrainCalculator()">
+              </div>
+
+              <div class="input-field-group">
+                <label for="select-strategy" class="light-input-label">
+                  <span>目前採用的讀書節奏策略</span>
+                </label>
+                <select id="select-strategy" class="select-box" onchange="updateBrainCalculator()">
+                  <option value="reverse">洋流逆向 5 點收工法（快慢調配＋準時休息）</option>
+                  <option value="linear">傳統硬啃頁數法（不達頁數不睡覺）</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-output-box">
+              <div>
+                <div style="font-family:var(--font-label);font-size:var(--label-size);color:var(--on-dark-muted);">BRAIN_CLARITY // 當前大腦清醒與吸收力</div>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;margin:var(--space-xs) 0;">
+                  <span id="calc-clarity-score" style="font-family:var(--font-headline);font-size:2.5rem;font-weight:700;color:var(--primary-on-dark);">86%</span>
+                  <span id="calc-risk-badge" class="card-badge">低風險・最佳推論狀態</span>
+                </div>
+                <div class="fatigue-gauge-track">
+                  <div class="fatigue-gauge-fill" id="calc-gauge-fill" style="width:86%;"></div>
+                </div>
+              </div>
+
+              <div style="border-top:1px solid var(--outline-dark-card);padding-top:var(--space-sm);">
+                <div style="font-family:var(--font-label);font-size:var(--label-size);color:var(--primary-on-dark);margin-bottom:4px;">RECOVERY_PRESCRIPTION // 大腦修復處方</div>
+                <p id="calc-prescription" style="margin:0;font-size:0.95rem;color:var(--on-dark-muted);line-height:1.55;">
+                  狀態極佳！維持 7 小時以上睡眠與 5 點收工原則，你的邏輯推論與考場反應正處於高檔。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5: 互動通關挑戰（知識自測） -->
+    <section id="sec-quiz" class="chapter-section accent-orange">
+      <div class="chapter-header">
+        <div class="chapter-meta-row">
+          <span class="chapter-num chapter-tag-orange">CHAPTER 05</span>
+          <span class="chapter-num">最終檢核 // 逆向攻略通關挑戰</span>
+        </div>
+        <h2 class="chapter-title">測驗一下：你已經掌握「逆向讀書攻略」的精髓了嗎？</h2>
+        <p class="chapter-subtitle">
+          共 5 題情境判斷。這同樣是一場「零壓力測試」，答對鎖定觀念、答錯剛好幫你抓出最後的思考盲點！
+        </p>
+      </div>
+
+      <div class="quiz-shell" id="quiz-shell">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-sm);">
+          <strong id="quiz-counter" style="font-family:var(--font-label);">QUESTION 01 / 05</strong>
+          <strong id="quiz-score-label" style="font-family:var(--font-label);color:var(--primary-ink);">目前得分：0 / 5</strong>
+        </div>
+
+        <div class="quiz-progress-strip" id="quiz-progress-strip" aria-label="測驗題目進度">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="quiz-stage">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-note">
+        資料來源說明：本頁核心讀書方法（逆向複習、先寫考卷半小時無壓測試、快慢節奏調配、5 點盲點收工法則、邏輯推論與大腦睡眠休息）整理自沈伯洋讀書方法分享直播；視覺風格依使用者要求參照《悠遊卡》「洋流風格」設計。
+      </p>
+      <button type="button" class="btn btn-primary" id="btn-reset-all" onclick="resetAllProgress(this)">
+        <span>重置全部學習紀錄</span>
+      </button>
+    </div>
+  </footer>
+
+  <api-shim></api-shim>
+
+  <script>
+    const PACE_UNITS_META = [
+      { id: 0, code: `P.01–10`, title: `細胞構造與胞器功能`, defaultReverse: `fast`, defaultLinear: `med` },
+      { id: 1, code: `P.11–20`, title: `酵素催化與溫度曲線`, defaultReverse: `slow`, defaultLinear: `med` },
+      { id: 2, code: `P.21–30`, title: `細胞膜運輸與滲透壓`, defaultReverse: `fast`, defaultLinear: `med` },
+      { id: 3, code: `P.31–40`, title: `呼吸作用能量轉換`, defaultReverse: `slow`, defaultLinear: `slow` },
+      { id: 4, code: `P.41–50`, title: `光合作用與碳反應`, defaultReverse: `med`, defaultLinear: `slow` }
+    ];
+
+    const EXAM_QUESTIONS = [
+      {
+        id: `q1`,
+        topic: `酵素活性與環境變因`,
+        stem: `【生物情境題 1】將胃蛋白酶（最適 pH ≈ 2）置於 pH = 8 的環境靜置一段時間後，再調回 pH = 2，其酵素活性會如何變化？`,
+        options: [
+          `A. 立即恢復至原本最高活性`,
+          `B. 活性下降甚至失去功能，因蛋白質空間結構已遭破壞`,
+          `C. 活性會變得比原本更高`,
+          `D. 視溫度而定，與酸鹼值無關`
+        ],
+        correctIdx: 1,
+        blindSpotText: `酵素受極端 pH 值影響導致蛋白質變性（不可逆破壞）`,
+        explain: `高溫或過極端的 pH 值常會破壞酵素蛋白質的立體結構，即使調回原本環境也難以恢復。`
+      },
+      {
+        id: `q2`,
+        topic: `細胞呼吸作用位置`,
+        stem: `【生物情境題 2】真核細胞在進行有氧呼吸時，「糖解作用（將葡萄糖分解為丙酮酸）」發生在細胞內的哪個位置？`,
+        options: [
+          `A. 細胞質液中`,
+          `B. 粒線體內膜上`,
+          `C. 葉綠體基質中`,
+          `D. 高基氏體囊泡內`
+        ],
+        correctIdx: 0,
+        blindSpotText: `有氧呼吸三階段（糖解作用於細胞質、檸檬酸循環於粒線體）的發生位置`,
+        explain: `糖解作用不論有氧或無氧都能進行，發生在細胞質液；後續階段才進入粒線體。`
+      },
+      {
+        id: `q3`,
+        topic: `遺傳機率與推理`,
+        stem: `【生物情境題 3】若雙親皆為某隱性遺傳疾病（aa）的無症狀帶因者（Aa × Aa），他們生下「表現正常但帶有致病基因」小孩的機率為何？`,
+        options: [
+          `A. 1/4（25%）`,
+          `B. 1/2（50%）`,
+          `C. 3/4（75%）`,
+          `D. 0%（不可能）`
+        ],
+        correctIdx: 1,
+        blindSpotText: `單基因遺傳 Aa × Aa 後代基因型比例（AA:Aa:aa = 1:2:1）判讀`,
+        explain: `Aa × Aa 子代為 AA(1/4)、Aa(2/4)、aa(1/4)。「表現正常且帶因」即 Aa，佔 2/4 = 1/2。`
+      }
+    ];
+
+    const THINK_MATRIX_DATA = {
+      bio: {
+        title: `生物：酵素與代謝作用`,
+        rote: [
+          `死背「溫度 0–40°C 活性上升、超過 60°C 活性為零」的數字表。`,
+          `考卷只要換成「深海熱泉細菌酵素」或改變座標軸單位，記憶立刻當機。`,
+          `把課本每一頁文字當成同等重要背誦，考前腦袋過載混亂。`
+        ],
+        infer: [
+          `抓住核心因果：「酵素本質是蛋白質 → 太高溫會讓蛋白質煮熟變性」。`,
+          `遇到陌生實驗題時，利用「結構有無被破壞」推論曲線是否可逆。`,
+          `寫考卷時就算忘記專有名詞，也能靠代謝邏輯推斷出唯一合理選項。`
+        ]
+      },
+      hist: {
+        title: `歷史：事件與時代脈絡`,
+        rote: [
+          `逐年死背「某年某月簽訂某條約、賠償幾千萬兩」的孤立條目。`,
+          `年代稍微一混，整個題組的順序題全部連環出錯。`,
+          `從第一章念到第五章，讀到後面時前面早就忘光。`
+        ],
+        infer: [
+          `抓住「誰有利益衝突？誰掌握財政或軍力？」的因果結構。`,
+          `看到題目線索，先用時代背景推論「這件事發生在工業革命前還是後」。`,
+          `把忘記的年代標成今日盲點，考後只針對斷裂的因果節點回頭補齊。`
+        ]
+      },
+      civ: {
+        title: `公民：法規與制度邏輯`,
+        rote: [
+          `一字不漏背誦法律條文或行政機關名稱，卻不理解立法目的。`,
+          `題幹只要出現實務情境改編（例如噪音歸警察還是環保局），就無法判斷。`,
+          `硬背大量專有名詞導致彈性疲乏，閱讀測驗看兩行就失神。`
+        ],
+        infer: [
+          `先問「這套制度想解決什麼問題？權責怎麼劃分才有效率？」`,
+          `區分行為性質（妨害安寧 vs 科學分貝測量）即可推論出對應處理機關。`,
+          `先拿模擬考卷寫 30 分鐘，一眼看出哪些制度邏輯自己早就懂、不用重念。`
+        ]
+      },
+      phys: {
+        title: `自然：素養圖表題`,
+        rote: [
+          `把習題詳解的計算步驟硬背下來，祈禱大考出同一題。`,
+          `題目條件稍微反轉或給一張新圖表，完全不知從何下手。`,
+          `熬夜刷題 12 小時不睡覺，考試當天看錯單位或正負號。`
+        ],
+        infer: [
+          `先看圖表橫縱軸單位與物理意義，推論「變數 A 增加時 B 應該變大還是變小」。`,
+          `靠直覺篩掉明顯不合理的選項，把模糊印象轉化為可驗證的推論。`,
+          `維持 7–8 小時充足睡眠，讓前額葉保持清醒來處理多步驟邏輯推導。`
+        ]
+      }
+    };
+
+    const QUIZ_QUESTIONS = [
+      {
+        stem: `1. 為什麼逆向讀書法不建議把「每天念完 50 頁」或「讀完第 1–3 章」當作進度標準？`,
+        options: [
+          `A. 因為課本第 50 頁以後都不會考`,
+          `B. 因為教材把重點均勻分散，但每個人理解力不同，硬照頁數走容易在後半段陷入「彈性疲乏」`,
+          `C. 因為高三生只能看考卷，絕對不能翻課本`,
+          `D. 因為家長規定不能念超過 50 頁`
+        ],
+        correctIdx: 1,
+        explain: `課本編排假設重點均勻分佈，但每個人的強弱項不同。硬照頁數讀，會在自己不熟的段落累積過多腦力負荷，進入彈性疲乏後，後面 20 頁幾乎沒有吸收效率。`
+      },
+      {
+        stem: `2. 為什麼要在「完全還沒念、完全還不懂」的時候，就先拿 2–3 份不同考卷寫半小時？`,
+        options: [
+          `A. 讓自己提早崩潰，才能發憤圖強`,
+          `B. 因為「都沒念」所以沒有壓力，能客觀測出真正擅長與不擅長的盲點`,
+          `C. 這樣就可以不用買課本了`,
+          `D. 為了把所有答案全部背起來`
+        ],
+        correctIdx: 1,
+        explain: `還沒念就去寫考卷，大腦知道錯了很正常，因此完全沒有得失壓力！這能幫你快速分清哪些靠推論就對、哪些只是猜對、哪些徹底不懂。`
+      },
+      {
+        stem: `3. 寫完考卷回去翻課本時，如果發現某個段落「我剛才其實有靠模糊印象推論寫對」，這時應該怎麼讀？`,
+        options: [
+          `A. 放慢十倍速度，從頭抄寫筆記十遍`,
+          `B. 快速看過確認推論正確即可，把時間留給連猜都猜不對的卡點`,
+          `C. 直接跳過不看，也不管自己是不是猜對的`,
+          `D. 馬上去睡覺不用再讀了`
+        ],
+        correctIdx: 1,
+        explain: `當你發現自己的推論路徑正確時，回去翻課本吸收會非常快！快速驗證過去，把慢下來的時間精準留給真正完全不懂的卡點，就是快慢節奏調配的關鍵。`
+      },
+      {
+        stem: `4. 關於「5 點收工法則」，為什麼強調要事先規劃好「搞懂這 5 個盲點後要去休息做什麼」？`,
+        options: [
+          `A. 因為這樣讀書時會一直很期待休息來臨，並防止大腦過度耗能產生彈性疲乏`,
+          `B. 因為一天最多只能寫 5 個字`,
+          `C. 因為超過 5 個盲點會被系統扣分`,
+          `D. 只是為了應付父母的檢查`
+        ],
+        correctIdx: 0,
+        explain: `明確的「5 點收工線」加上事先安排好的休息獎勵，能給大腦清楚的期待感與邊界，避免無止盡念下去導致吸收效率歸零。`
+      },
+      {
+        stem: `5. 在讀書心法中引用大谷翔平「強調睡覺與休息」的例子，核心想提醒考生什麼？`,
+        options: [
+          `A. 高三生每天都要練投球才考得好`,
+          `B. 只要睡覺就會自動學會所有生物知識`,
+          `C. 長期逞強不休息會累積彈性疲乏並造成嚴重失誤，大腦修復與睡眠是高效率的基礎`,
+          `D. 記憶力不好的人不適合參加任何考試`
+        ],
+        correctIdx: 2,
+        explain: `連頂尖運動員沒休息好逞強都容易受傷，考生的大腦更是如此。充足睡眠加上推論思維，才能在考場上發揮最穩定的判斷力。`
+      }
+    ];
+
+    let appState = {
+      paceMode: `reverse`,
+      paceUnits: [`fast`, `slow`, `fast`, `slow`, `med`],
+      examAnswers: {},
+      examConfidences: {},
+      examSubmitted: false,
+      blindSpots: [
+        { id: 1, text: `細胞呼吸作用中 ATP 產生的階段與位置比較`, done: false },
+        { id: 2, text: `酵素活性受溫度與 pH 值影響的不可逆變性曲線`, done: false },
+        { id: 3, text: `減數分裂與有絲分裂染色體套數變化（2n → n）`, done: false },
+        { id: 4, text: `光合作用光反應與碳反應（卡爾文循環）物質交換`, done: false },
+        { id: 5, text: `單基因遺傳與性聯遺傳機率十字交配推論`, done: false }
+      ],
+      rewardPlan: `看一集動畫＋睡足 8 小時`,
+      thinkSubject: `bio`,
+      brainHours: 4,
+      sleepHours: 7.5,
+      brainStrategy: `reverse`,
+      quizIndex: 0,
+      quizAnswers: {}
+    };
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        console.warn(`State save skipped:`, err);
+      }
+    }
+
+    function scrollToHero() {
+      const hero = document.getElementById(`hero`);
+      if (hero) {
+        hero.scrollIntoView({ behavior: `smooth` });
+      } else {
+        window.scrollTo({ top: 0, behavior: `smooth` });
+      }
+    }
+
+    /* ---------- CHAPTER 1: PACE SIMULATOR ---------- */
+    function renderPaceSimulator() {
+      const grid = document.getElementById(`pace-units-grid`);
+      if (!grid) return;
+
+      const btnLinear = document.getElementById(`btn-mode-linear`);
+      const btnReverse = document.getElementById(`btn-mode-reverse`);
+      if (btnLinear) btnLinear.classList.toggle(`active`, appState.paceMode === `linear`);
+      if (btnReverse) btnReverse.classList.toggle(`active`, appState.paceMode === `reverse`);
+
+      const stateLabels = {
+        fast: { badge: `FAST 2.0x // 已懂快轉`, desc: `推論正確，一眼帶過省精力` },
+        med: { badge: `MED 1.0x // 模糊驗證`, desc: `中速核對課本關鍵字` },
+        slow: { badge: `SLOW 0.4x // 卡點深研`, desc: `放慢思考徹底搞懂盲點` }
+      };
+
+      grid.innerHTML = PACE_UNITS_META.map((u, idx) => {
+        const st = appState.paceUnits[idx] || `med`;
+        const meta = stateLabels[st];
+        return `
+          <button type="button" class="pace-unit-btn state-${st}" onclick="cyclePaceUnit(${idx})" aria-label="切換 ${u.title} 閱讀節奏">
+            <span class="pace-unit-code">${u.code}</span>
+            <span class="pace-unit-title">${u.title}</span>
+            <span style="font-size:0.8rem;opacity:0.9;">${meta.desc}</span>
+            <span class="pace-unit-badge">${meta.badge}</span>
+          </button>
+        `;
+      }).join(``);
+
+      updatePaceChartAndTelemetry();
+    }
+
+    function setPacePreset(mode) {
+      appState.paceMode = mode;
+      appState.paceUnits = PACE_UNITS_META.map(u => mode === `linear` ? u.defaultLinear : u.defaultReverse);
+      renderPaceSimulator();
+      persistState();
+    }
+
+    function cyclePaceUnit(idx) {
+      const order = [`fast`, `med`, `slow`];
+      const curr = appState.paceUnits[idx] || `med`;
+      const next = order[(order.indexOf(curr) + 1) % order.length];
+      appState.paceUnits[idx] = next;
+      appState.paceMode = `custom`;
+      renderPaceSimulator();
+      persistState();
+    }
+
+    function updatePaceChartAndTelemetry() {
+      const svg = document.getElementById(`pace-svg-chart`);
+      if (!svg) return;
+
+      let stamina = 100;
+      const staminaPts = [{ x: 45, yVal: 100 }];
+      const absorbPts = [];
+      let totalAbsorb = 0;
+
+      const isLinear = appState.paceMode === `linear`;
+
+      appState.paceUnits.forEach((st, idx) => {
+        let drain = 0;
+        let absorb = 0;
+        if (isLinear) {
+          drain = idx >= 2 ? 22 : 16;
+          absorb = Math.max(25, stamina - 10);
+        } else {
+          if (st === `fast`) { drain = 4; absorb = Math.min(96, stamina * 0.96); }
+          else if (st === `med`) { drain = 9; absorb = Math.min(92, stamina * 0.90); }
+          else { drain = 13; absorb = Math.min(90, stamina * 0.88); }
+        }
+        stamina = Math.max(12, stamina - drain);
+        const x = 45 + (idx + 1) * 95;
+        staminaPts.push({ x, yVal: stamina });
+        absorbPts.push({ x, yVal: Math.round(absorb) });
+        totalAbsorb += absorb;
+      });
+
+      const avgAbsorb = Math.round(totalAbsorb / 5);
+      const mapY = (val) => 190 - (val / 100) * 155;
+
+      const staminaLine = staminaPts.map(p => `${p.x},${mapY(p.yVal)}`).join(` `);
+      const absorbLine = absorbPts.map(p => `${p.x},${mapY(p.yVal)}`).join(` `);
+
+      let svgContent = `
+        <line x1="45" y1="35" x2="530" y2="35" stroke="var(--outline-variant)" stroke-width="1"/>
+        <line x1="45" y1="112" x2="530" y2="112" stroke="var(--outline-variant)" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="45" y1="190" x2="530" y2="190" stroke="var(--outline)" stroke-width="2"/>
+        <line x1="45" y1="25" x2="45" y2="190" stroke="var(--outline)" stroke-width="2"/>
+        <text x="38" y="39" text-anchor="end" font-family="var(--font-label)" font-size="10" fill="var(--on-surface-variant)">100%</text>
+        <text x="38" y="116" text-anchor="end" font-family="var(--font-label)" font-size="10" fill="var(--on-surface-variant)">50%</text>
+        <text x="38" y="193" text-anchor="end" font-family="var(--font-label)" font-size="10" fill="var(--on-surface-variant)">0%</text>
+      `;
+
+      if (stamina < 40) {
+        svgContent += `
+          <rect x="330" y="35" width="195" height="155" fill="var(--error-soft)" opacity="0.65"/>
+          <text x="427" y="54" text-anchor="middle" font-family="var(--font-label)" font-size="10" font-weight="700" fill="var(--error)">彈性疲乏區：後 20 頁吸收下滑</text>
+        `;
+      }
+
+      svgContent += `
+        <polyline points="${staminaLine}" fill="none" stroke="var(--surface-dark)" stroke-width="3"/>
+        <polyline points="${absorbLine}" fill="none" stroke="var(--primary)" stroke-width="4"/>
+      `;
+
+      absorbPts.forEach((p, idx) => {
+        const yA = mapY(p.yVal);
+        const yS = mapY(staminaPts[idx + 1].yVal);
+        svgContent += `
+          <rect x="${p.x - 5}" y="${yS - 5}" width="10" height="10" fill="var(--surface-dark)"/>
+          <circle cx="${p.x}" cy="${yA}" r="6" fill="var(--primary)" stroke="var(--outline)" stroke-width="2"/>
+          <text x="${p.x}" y="${yA - 12}" text-anchor="middle" font-family="var(--font-label)" font-size="10" font-weight="700" fill="var(--on-surface)">${p.yVal}%</text>
+          <text x="${p.x}" y="208" text-anchor="middle" font-family="var(--font-label)" font-size="10" font-weight="700" fill="var(--on-surface)">${PACE_UNITS_META[idx].code}</text>
+        `;
+      });
+
+      svg.innerHTML = svgContent;
+
+      const absEl = document.getElementById(`tel-absorption`);
+      const staEl = document.getElementById(`tel-stamina`);
+      const diagEl = document.getElementById(`tel-diagnosis`);
+      if (absEl) absEl.textContent = `${avgAbsorb}%`;
+      if (staEl) staEl.textContent = `${stamina}%`;
+      if (diagEl) {
+        if (stamina < 40) {
+          diagEl.textContent = `警告：進入彈性疲乏！硬照頁數平均推進導致後面 20 頁嚴重耗神，建議改用「快轉已懂、放慢卡點」。`;
+        } else if (appState.paceUnits.filter(x => x === `slow`).length >= 4) {
+          diagEl.textContent = `卡點偏多：建議鎖定其中最關鍵的 5 個盲點搞懂就收工，其餘明天再處理！`;
+        } else {
+          diagEl.textContent = `節奏均衡：已懂區塊快速掃描保留精力，卡點擁有充足腦力深度消化。`;
+        }
+      }
+    }
+
+    /* ---------- CHAPTER 2: ZERO-STRESS EXAM ---------- */
+    function renderZeroStressExam() {
+      const list = document.getElementById(`exam-q-list`);
+      if (!list) return;
+
+      const confChoices = [
+        { key: `infer`, label: `模糊有印象・推論出來的` },
+        { key: `guess`, label: `完全不熟・純粹用猜的` },
+        { key: `blank`, label: `看不懂・連猜都猜不出` }
+      ];
+
+      list.innerHTML = EXAM_QUESTIONS.map((q, idx) => {
+        const chosenOpt = appState.examAnswers[q.id];
+        const chosenConf = appState.examConfidences[q.id];
+        return `
+          <div class="exam-q-card">
+            <div class="exam-q-header">
+              <span class="chapter-num">TEST 0${idx + 1} // ${q.topic}</span>
+              <span class="chapter-num chapter-tag-orange">無壓模擬題</span>
+            </div>
+            <p class="exam-q-stem">${q.stem}</p>
+            <div class="exam-options-grid">
+              ${q.options.map((opt, oIdx) => `
+                <button type="button" class="exam-opt-btn ${chosenOpt === oIdx ? `selected` : ``}" onclick="selectExamAnswer('${q.id}', ${oIdx})">
+                  ${opt}
+                </button>
+              `).join(``)}
+            </div>
+            <div class="conf-row">
+              <span class="conf-label">作答當下的體感標記：</span>
+              ${confChoices.map(c => `
+                <button type="button" class="conf-btn ${chosenConf === c.key ? `selected` : ``}" onclick="selectExamConfidence('${q.id}', '${c.key}')">
+                  ${c.label}
+                </button>
+              `).join(``)}
+            </div>
+          </div>
+        `;
+      }).join(``);
+
+      if (appState.examSubmitted) {
+        renderExamReport();
+      }
+    }
+
+    function selectExamAnswer(qId, optIdx) {
+      appState.examAnswers[qId] = optIdx;
+      const msg = document.getElementById(`exam-inline-msg`);
+      if (msg) msg.textContent = ``;
+      renderZeroStressExam();
+      persistState();
+    }
+
+    function selectExamConfidence(qId, confKey) {
+      appState.examConfidences[qId] = confKey;
+      const msg = document.getElementById(`exam-inline-msg`);
+      if (msg) msg.textContent = ``;
+      renderZeroStressExam();
+      persistState();
+    }
+
+    function evaluateZeroStressExam() {
+      const msg = document.getElementById(`exam-inline-msg`);
+      const allAnswered = EXAM_QUESTIONS.every(q => appState.examAnswers[q.id] !== undefined && appState.examConfidences[q.id] !== undefined);
+      if (!allAnswered) {
+        if (msg) msg.textContent = `請先完成上方 3 題的選項與「作答體感標記」，就算用猜的也沒關係！`;
+        return;
+      }
+      if (msg) msg.textContent = ``;
+      appState.examSubmitted = true;
+      renderExamReport();
+      persistState();
+    }
+
+    function renderExamReport() {
+      const area = document.getElementById(`exam-report-area`);
+      const grid = document.getElementById(`exam-report-grid`);
+      if (!area || !grid) return;
+
+      const inferBucket = [];
+      const guessBucket = [];
+      const blindBucket = [];
+
+      EXAM_QUESTIONS.forEach(q => {
+        const isCorrect = appState.examAnswers[q.id] === q.correctIdx;
+        const conf = appState.examConfidences[q.id];
+        const entry = { topic: q.topic, isCorrect, explain: q.explain, blindSpotText: q.blindSpotText };
+        if (isCorrect && conf === `infer`) {
+          inferBucket.push(entry);
+        } else if (isCorrect && conf === `guess`) {
+          guessBucket.push(entry);
+        } else {
+          blindBucket.push(entry);
+        }
+      });
+
+      const renderItems = (arr, emptyTxt) => {
+        if (arr.length === 0) return `<p style="margin:0;font-size:0.88rem;color:var(--on-surface-variant);">${emptyTxt}</p>`;
+        return `<ul style="margin:0;padding-left:1.1rem;display:grid;gap:6px;font-size:0.88rem;">` +
+          arr.map(x => `<li><strong>${x.topic}</strong>：${x.explain}</li>`).join(``) +
+          `</ul>`;
+      };
+
+      grid.innerHTML = `
+        <div class="report-bucket bucket-infer">
+          <span class="card-badge" style="margin-bottom:8px;">FAST // 推論正確 (${inferBucket.length})</span>
+          <h4 style="margin:0 0 6px;font-size:1rem;">回頭翻書看超快</h4>
+          ${renderItems(inferBucket, `目前沒有項目歸類至此區。`)}
+        </div>
+        <div class="report-bucket bucket-guess">
+          <span class="card-badge" style="margin-bottom:8px;">CHECK // 僥倖猜對 (${guessBucket.length})</span>
+          <h4 style="margin:0 0 6px;font-size:1rem;">需快速核對原理</h4>
+          ${renderItems(guessBucket, `目前沒有項目歸類至此區。`)}
+        </div>
+        <div class="report-bucket bucket-blind">
+          <span class="card-badge" style="margin-bottom:8px;">SLOW // 真盲點 (${blindBucket.length})</span>
+          <h4 style="margin:0 0 6px;font-size:1rem;">放慢速度重點搞懂</h4>
+          ${renderItems(blindBucket, `太強了！這 3 題沒有出現完全卡住的盲點。`)}
+        </div>
+      `;
+      area.style.display = `block`;
+    }
+
+    function resetZeroStressExam() {
+      appState.examAnswers = {};
+      appState.examConfidences = {};
+      appState.examSubmitted = false;
+      const area = document.getElementById(`exam-report-area`);
+      const msg = document.getElementById(`exam-inline-msg`);
+      const syncMsg = document.getElementById(`exam-sync-msg`);
+      if (area) area.style.display = `none`;
+      if (msg) msg.textContent = ``;
+      if (syncMsg) syncMsg.textContent = ``;
+      renderZeroStressExam();
+      persistState();
+    }
+
+    function syncExamBlindSpotsToChecklist() {
+      const detected = [];
+      EXAM_QUESTIONS.forEach(q => {
+        const isCorrect = appState.examAnswers[q.id] === q.correctIdx;
+        const conf = appState.examConfidences[q.id];
+        if (!isCorrect || conf !== `infer`) {
+          detected.push(q.blindSpotText);
+        }
+      });
+
+      if (detected.length === 0) {
+        const syncMsg = document.getElementById(`exam-sync-msg`);
+        if (syncMsg) syncMsg.textContent = `這 3 題你都靠推論穩穩答對了，無須匯入盲點！`;
+        return;
+      }
+
+      detected.forEach((txt, idx) => {
+        if (appState.blindSpots[idx]) {
+          appState.blindSpots[idx].text = txt;
+          appState.blindSpots[idx].done = false;
+        }
+      });
+
+      renderFiveChecklist();
+      persistState();
+
+      const syncMsg = document.getElementById(`exam-sync-msg`);
+      if (syncMsg) syncMsg.textContent = `已將 ${detected.length} 個測出的盲點寫入章節三清單！`;
+      const secFive = document.getElementById(`sec-five`);
+      if (secFive) secFive.scrollIntoView({ behavior: `smooth` });
+    }
+
+    /* ---------- CHAPTER 3: 5-POINT CHECKLIST ---------- */
+    function renderFiveChecklist() {
+      const stack = document.getElementById(`five-checklist-stack`);
+      if (!stack) return;
+
+      stack.innerHTML = appState.blindSpots.map((item, idx) => `
+        <div class="check-item-card ${item.done ? `is-done` : ``}">
+          <button type="button" class="check-toggle-btn" onclick="toggleBlindSpot(${idx})" aria-label="切換盲點 ${idx + 1} 完成狀態" aria-pressed="${item.done}">
+            ${item.done ? `✓` : `0${idx + 1}`}
+          </button>
+          <div class="check-item-content">
+            <label for="blindspot-input-${idx}" style="font-size:0.75rem;font-family:var(--font-label);color:var(--on-surface-variant);">BLIND_SPOT_0${idx + 1}</label>
+            <input type="text" id="blindspot-input-${idx}" class="check-item-input" value="${escapeAttr(item.text)}" oninput="editBlindSpotText(${idx}, this.value)">
+          </div>
+          <span class="check-status-tag">${item.done ? `已搞懂` : `待處理`}</span>
+        </div>
+      `).join(``);
+
+      const doneCount = appState.blindSpots.filter(x => x.done).length;
+      const pct = (doneCount / 5) * 100;
+
+      const progText = document.getElementById(`five-progress-text`);
+      const progSub = document.getElementById(`five-progress-sub`);
+      const progFill = document.getElementById(`five-progress-fill`);
+      const navCount = document.getElementById(`nav-blindspot-count`);
+      const rewardInput = document.getElementById(`reward-plan-input`);
+      const celebBox = document.getElementById(`rest-celebration-box`);
+      const celebReward = document.getElementById(`celebration-reward-display`);
+
+      if (progText) progText.textContent = `${doneCount} / 5`;
+      if (navCount) navCount.textContent = `${doneCount}/5`;
+      if (progFill) progFill.style.width = `${pct}%`;
+      if (rewardInput && rewardInput.value !== appState.rewardPlan) {
+        rewardInput.value = appState.rewardPlan;
+      }
+      if (celebReward) celebReward.textContent = appState.rewardPlan || `好好睡一覺`;
+
+      if (doneCount === 5) {
+        if (progSub) progSub.textContent = `今日達標！禁止逞強`;
+        if (celebBox) celebBox.classList.add(`visible`);
+      } else {
+        if (progSub) progSub.textContent = `還差 ${5 - doneCount} 個盲點即可收工`;
+        if (celebBox) celebBox.classList.remove(`visible`);
+      }
+    }
+
+    function escapeAttr(str) {
+      return String(str || ``).replace(/&/g, `&amp;`).replace(/"/g, `&quot;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
+    }
+
+    function toggleBlindSpot(idx) {
+      if (!appState.blindSpots[idx]) return;
+      appState.blindSpots[idx].done = !appState.blindSpots[idx].done;
+      renderFiveChecklist();
+      persistState();
+    }
+
+    function editBlindSpotText(idx, val) {
+      if (!appState.blindSpots[idx]) return;
+      appState.blindSpots[idx].text = val;
+      persistState();
+    }
+
+    function updateRewardPlan(val) {
+      appState.rewardPlan = val;
+      const celebReward = document.getElementById(`celebration-reward-display`);
+      if (celebReward) celebReward.textContent = val || `好好睡一覺`;
+      persistState();
+    }
+
+    function resetFiveChecklist() {
+      appState.blindSpots.forEach(item => { item.done = false; });
+      renderFiveChecklist();
+      persistState();
+    }
+
+    /* ---------- CHAPTER 4: THINKING MATRIX & BRAIN CALC ---------- */
+    function setThinkSubject(subj) {
+      appState.thinkSubject = subj;
+      renderThinkMatrix();
+      persistState();
+    }
+
+    function renderThinkMatrix() {
+      const grid = document.getElementById(`matrix-compare-grid`);
+      if (!grid) return;
+
+      [`bio`, `hist`, `civ`, `phys`].forEach(k => {
+        const tab = document.getElementById(`tab-${k}`);
+        if (tab) tab.classList.toggle(`active`, appState.thinkSubject === k);
+      });
+
+      const data = THINK_MATRIX_DATA[appState.thinkSubject] || THINK_MATRIX_DATA.bio;
+      grid.innerHTML = `
+        <div class="matrix-col col-rote">
+          <span class="card-badge" style="margin-bottom:var(--space-sm);">ROTE // 死背型思維</span>
+          <h3 style="margin:0 0 var(--space-sm);font-size:1.15rem;">${data.title}（硬記派做法）</h3>
+          <ul style="margin:0;padding-left:1.2rem;display:grid;gap:8px;font-size:0.95rem;">
+            ${data.rote.map(line => `<li>${line}</li>`).join(``)}
+          </ul>
+        </div>
+        <div class="matrix-col col-infer">
+          <span class="card-badge" style="background:var(--primary);color:var(--on-primary);margin-bottom:var(--space-sm);">INFERENCE // 推論型思維</span>
+          <h3 style="margin:0 0 var(--space-sm);font-size:1.15rem;">${data.title}（洋流推論派）</h3>
+          <ul style="margin:0;padding-left:1.2rem;display:grid;gap:8px;font-size:0.95rem;font-weight:500;">
+            ${data.infer.map(line => `<li>${line}</li>`).join(``)}
+          </ul>
+        </div>
+      `;
+    }
+
+    function updateBrainCalculator() {
+      const studySlider = document.getElementById(`slider-study-hours`);
+      const sleepSlider = document.getElementById(`slider-sleep-hours`);
+      const stratSelect = document.getElementById(`select-strategy`);
+      if (!studySlider || !sleepSlider || !stratSelect) return;
+
+      appState.brainHours = parseFloat(studySlider.value);
+      appState.sleepHours = parseFloat(sleepSlider.value);
+      appState.brainStrategy = stratSelect.value;
+
+      const studyLabel = document.getElementById(`val-study-hours`);
+      const sleepLabel = document.getElementById(`val-sleep-hours`);
+      if (studyLabel) studyLabel.textContent = `${appState.brainHours} 小時`;
+      if (sleepLabel) sleepLabel.textContent = `${appState.sleepHours} 小時`;
+
+      let clarity = 92;
+      if (appState.sleepHours < 7) {
+        clarity -= (7 - appState.sleepHours) * 14;
+      } else if (appState.sleepHours >= 8) {
+        clarity += 5;
+      }
+
+      if (appState.brainHours > 5) {
+        clarity -= (appState.brainHours - 5) * (appState.brainStrategy === `linear` ? 10 : 5);
+      }
+
+      if (appState.brainStrategy === `linear`) {
+        clarity -= 12;
+      }
+
+      clarity = Math.max(15, Math.min(99, Math.round(clarity)));
+
+      const scoreEl = document.getElementById(`calc-clarity-score`);
+      const badgeEl = document.getElementById(`calc-risk-badge`);
+      const fillEl = document.getElementById(`calc-gauge-fill`);
+      const prescEl = document.getElementById(`calc-prescription`);
+
+      if (scoreEl) scoreEl.textContent = `${clarity}%`;
+      if (fillEl) {
+        fillEl.style.width = `${clarity}%`;
+        if (clarity >= 75) fillEl.style.background = `var(--positive)`;
+        else if (clarity >= 50) fillEl.style.background = `var(--primary)`;
+        else fillEl.style.background = `var(--error)`;
+      }
+
+      if (badgeEl && prescEl) {
+        if (clarity >= 75) {
+          badgeEl.textContent = `低風險・最佳推論狀態`;
+          badgeEl.style.background = `var(--positive-soft)`;
+          prescEl.textContent = `大腦狀態清醒！維持充足睡眠與 5 點收工法則，用邏輯推論拆解陌生題目最穩定。`;
+        } else if (clarity >= 50) {
+          badgeEl.textContent = `警戒區・即將彈性疲乏`;
+          badgeEl.style.background = `var(--warning-soft)`;
+          prescEl.textContent = `注意！讀書時數偏高或睡眠略少，繼續硬撐容易開始失神。建議挑出剩下的最後 1–2 個盲點搞懂就收工去睡覺。`;
+        } else {
+          badgeEl.textContent = `高風險・彈性疲乏失誤警戒`;
+          badgeEl.style.background = `var(--error-soft)`;
+          prescEl.textContent = `立刻停止硬念！就像頂尖運動員沒睡飽逞強會受傷一樣，大腦已超載，再讀下去吸收率趨近於零，請先補眠至少 7.5 小時。`;
+        }
+      }
+
+      persistState();
+    }
+
+    function applyBrainStateToInputs() {
+      const studySlider = document.getElementById(`slider-study-hours`);
+      const sleepSlider = document.getElementById(`slider-sleep-hours`);
+      const stratSelect = document.getElementById(`select-strategy`);
+      if (studySlider) studySlider.value = appState.brainHours;
+      if (sleepSlider) sleepSlider.value = appState.sleepHours;
+      if (stratSelect) stratSelect.value = appState.brainStrategy;
+      updateBrainCalculator();
+    }
+
+    /* ---------- CHAPTER 5: QUIZ CHALLENGE ---------- */
+    function renderQuiz() {
+      const counterEl = document.getElementById(`quiz-counter`);
+      const scoreEl = document.getElementById(`quiz-score-label`);
+      const stripEl = document.getElementById(`quiz-progress-strip`);
+      const stageEl = document.getElementById(`quiz-stage`);
+      if (!counterEl || !scoreEl || !stripEl || !stageEl) return;
+
+      const total = QUIZ_QUESTIONS.length;
+      const idx = Math.min(appState.quizIndex, total - 1);
+      const q = QUIZ_QUESTIONS[idx];
+
+      let correctCount = 0;
+      QUIZ_QUESTIONS.forEach((item, i) => {
+        if (appState.quizAnswers[i] === item.correctIdx) correctCount++;
+      });
+
+      const answeredAll = Object.keys(appState.quizAnswers).length === total;
+
+      counterEl.textContent = answeredAll && appState.quizIndex >= total
+        ? `CHALLENGE COMPLETE // 通關結算`
+        : `QUESTION 0${idx + 1} / 0${total}`;
+      scoreEl.textContent = `目前得分：${correctCount} / ${total}`;
+
+      stripEl.innerHTML = QUIZ_QUESTIONS.map((item, i) => {
+        let cls = `quiz-step-pip`;
+        if (appState.quizAnswers[i] !== undefined) {
+          cls += appState.quizAnswers[i] === item.correctIdx ? ` correct` : ` wrong`;
+        } else if (i === idx && appState.quizIndex < total) {
+          cls += ` current`;
+        }
+        return `<div class="${cls}"></div>`;
+      }).join(``);
+
+      if (appState.quizIndex >= total) {
+        const rank = correctCount >= 5 ? `洋流逆向宗師` : correctCount >= 3 ? `節奏掌控者` : `見習挑戰者`;
+        stageEl.innerHTML = `
+          <div style="border:var(--border-thick);background:var(--surface-dark);color:var(--on-dark);padding:var(--space-lg);display:grid;gap:var(--space-md);">
+            <span class="kicker-tag kicker-tag-orange" style="justify-self:start;">FINAL RESULT // 通關稱號：${rank}</span>
+            <h3 style="margin:0;font-family:var(--font-headline);font-size:1.75rem;">
+              你答對了 ${correctCount} / ${total} 題逆向讀書心法！
+            </h3>
+            <p style="margin:0;color:var(--on-dark-muted);">
+              現在就打開一份還沒念過的考卷寫半小時，挑出屬於你的「今日 5 個盲點」，把剩下的時間留給好好休息與睡飽！
+            </p>
+            <div>
+              <button type="button" class="btn btn-primary" onclick="restartQuiz()">
+                <span>再挑戰一次測驗</span>
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const userChoice = appState.quizAnswers[idx];
+      const hasAnswered = userChoice !== undefined;
+
+      stageEl.innerHTML = `
+        <h3 style="margin:0;font-size:1.2rem;line-height:1.45;">${q.stem}</h3>
+        <div class="quiz-options-stack">
+          ${q.options.map((opt, oIdx) => {
+            let cls = `quiz-opt-btn`;
+            if (hasAnswered) {
+              if (oIdx === q.correctIdx) cls += ` is-correct`;
+              else if (oIdx === userChoice) cls += ` is-wrong`;
+            }
+            return `
+              <button type="button" class="${cls}" ${hasAnswered ? `disabled` : ``} onclick="answerQuizQuestion(${idx}, ${oIdx})">
+                <span>${opt}</span>
+              </button>
+            `;
+          }).join(``)}
+        </div>
+        ${hasAnswered ? `
+          <div class="quiz-feedback-panel">
+            <strong style="display:block;margin-bottom:4px;color:${userChoice === q.correctIdx ? `var(--positive)` : `var(--error)`};">
+              ${userChoice === q.correctIdx ? `判斷精準！這就是逆向攻略的核心邏輯。` : `抓到一個觀念盲點了！來看看正確解析：`}
+            </strong>
+            <p style="margin:0 0 var(--space-md);font-size:0.95rem;">${q.explain}</p>
+            <button type="button" class="btn btn-primary" onclick="nextQuizQuestion()">
+              <span>${idx + 1 < total ? `前往下一題` : `查看通關結算`}</span>
+            </button>
+          </div>
+        ` : ``}
+      `;
+    }
+
+    function answerQuizQuestion(qIdx, oIdx) {
+      appState.quizAnswers[qIdx] = oIdx;
+      renderQuiz();
+      persistState();
+    }
+
+    function nextQuizQuestion() {
+      appState.quizIndex += 1;
+      renderQuiz();
+      persistState();
+    }
+
+    function restartQuiz() {
+      appState.quizIndex = 0;
+      appState.quizAnswers = {};
+      renderQuiz();
+      persistState();
+    }
+
+    /* ---------- GLOBAL RESET (2-STEP INLINE) ---------- */
+    function resetAllProgress(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `再點一次確認重置全部進度`;
+        setTimeout(() => {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `重置全部學習紀錄`;
+          }
+        }, 4000);
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `重置全部學習紀錄`;
+
+      appState.paceMode = `reverse`;
+      appState.paceUnits = [`fast`, `slow`, `fast`, `slow`, `med`];
+      appState.examAnswers = {};
+      appState.examConfidences = {};
+      appState.examSubmitted = false;
+      appState.blindSpots.forEach(b => { b.done = false; });
+      appState.rewardPlan = `看一集動畫＋睡足 8 小時`;
+      appState.thinkSubject = `bio`;
+      appState.brainHours = 4;
+      appState.sleepHours = 7.5;
+      appState.brainStrategy = `reverse`;
+      appState.quizIndex = 0;
+      appState.quizAnswers = {};
+
+      renderPaceSimulator();
+      resetZeroStressExam();
+      renderFiveChecklist();
+      renderThinkMatrix();
+      applyBrainStateToInputs();
+      renderQuiz();
+      persistState();
+    }
+
+    /* ---------- ACTIVE NAV HIGHLIGHT ON SCROLL ---------- */
+    function setupScrollObserver() {
+      const sections = document.querySelectorAll(`.chapter-section`);
+      const navLinks = document.querySelectorAll(`.nav-link`);
+      if (!sections.length || !navLinks.length || !(`IntersectionObserver` in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            navLinks.forEach(link => {
+              link.classList.toggle(`active`, link.getAttribute(`data-section`) === id);
+            });
+          }
+        });
+      }, { threshold: 0.22 });
+
+      sections.forEach(sec => observer.observe(sec));
+    }
+
+    /* ---------- INITIALIZATION ---------- */
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            appState = Object.assign({}, appState, saved);
+            if (!Array.isArray(appState.blindSpots) || appState.blindSpots.length !== 5) {
+              appState.blindSpots = [
+                { id: 1, text: `細胞呼吸作用中 ATP 產生的階段與位置比較`, done: false },
+                { id: 2, text: `酵素活性受溫度與 pH 值影響的不可逆變性曲線`, done: false },
+                { id: 3, text: `減數分裂與有絲分裂染色體套數變化（2n → n）`, done: false },
+                { id: 4, text: `光合作用光反應與碳反應（卡爾文循環）物質交換`, done: false },
+                { id: 5, text: `單基因遺傳與性聯遺傳機率十字交配推論`, done: false }
+              ];
+            }
+          }
+        }
+      } catch (err) {
+        console.warn(`Restore state failed, using defaults:`, err);
+      }
+
+      renderPaceSimulator();
+      renderZeroStressExam();
+      renderFiveChecklist();
+      renderThinkMatrix();
+      applyBrainStateToInputs();
+      renderQuiz();
+      setupScrollObserver();
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
